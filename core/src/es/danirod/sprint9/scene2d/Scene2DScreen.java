@@ -1,22 +1,4 @@
-/*
- * This file is part of Jump Don't Die
- * Copyright (C) 2015 Dani Rodríguez <danirod@outlook.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-package es.danirod.jddprototype.scene2d;
+package es.danirod.sprint9.scene2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -24,8 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import es.danirod.jddprototype.game.BaseScreen;
-import es.danirod.jddprototype.game.MainGame;
+import es.danirod.sprint9.game.BaseScreen;
+import es.danirod.sprint9.game.GameOverScreen;
+import es.danirod.sprint9.game.MainGame;
 
 /**
  * This screen uses Scene2D to show how it works.
@@ -39,13 +22,14 @@ public class Scene2DScreen extends BaseScreen {
     private PlayerActor player;
 
     /** The actor that represent spikes. */
-    private es.danirod.jddprototype.scene2d.SpikeActor spikes;
+    private es.danirod.sprint9.scene2d.SpikeActor spikes;
 
     /** Textures used in this screen. */
     private Texture playerTexture, spikeTexture;
 
     /** Regions used in this screen. */
     private TextureRegion spikeRegion;
+    public int num_muertes = 0;
 
     public Scene2DScreen(MainGame game) {
         super(game);
@@ -63,7 +47,7 @@ public class Scene2DScreen extends BaseScreen {
 
         // Load the actors.
         player = new PlayerActor(playerTexture);
-        spikes = new es.danirod.jddprototype.scene2d.SpikeActor(spikeRegion, 2100, 100, 500);
+        spikes = new es.danirod.sprint9.scene2d.SpikeActor(spikeRegion, 2100, 100, 500);
         player.setPosition(20, 100);
 
         // Add the actors to the screen. They won't be visible if you don't add them.
@@ -93,6 +77,10 @@ public class Scene2DScreen extends BaseScreen {
     private void checkCollisions() {
         if (player.isAlive() &&  (player.getX() + player.getWidth()) > spikes.getX()) {
             System.out.println("A collision has happened.");
+
+            num_muertes++;
+            // show the number of deaths in the screen
+            game.setScreen(new GameOverScreen(game));
             player.setAlive(false);
         }
     }

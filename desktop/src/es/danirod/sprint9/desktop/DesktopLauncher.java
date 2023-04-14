@@ -15,11 +15,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package es.danirod.jddprototype.desktop;
+package es.danirod.sprint9.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import es.danirod.jddprototype.game.MainGame;
+import es.danirod.sprint9.game.MainGame;
 
 /**
  * This is the launcher that is used to show the game in desktop computers. While the point of this

@@ -1,22 +1,4 @@
-/*
- * This file is part of Jump Don't Die
- * Copyright (C) 2015 Dani Rodríguez <danirod@outlook.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-package es.danirod.jddprototype.box2d;
+package es.danirod.sprint9.game.box2d;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -31,40 +13,34 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 
-/**
- * This screen is a prototype of the game using only Box2D. It uses a renderer to show you the
- * things that are hidden in Box2D usually. There are a lot of variables here, so don't judge me.
- */
-public class Box2DScreen extends es.danirod.jddprototype.game.BaseScreen {
+//Prototype of the game using only Box2D. It uses a renderer to show you the things that are hidden in Box2D usually.
+public class Box2DScreen extends es.danirod.sprint9.game.BaseScreen {
 
-    public Box2DScreen(es.danirod.jddprototype.game.MainGame game) {
+    public Box2DScreen(es.danirod.sprint9.game.MainGame game) {
         super(game);
     }
 
-    /** World instance. Everything in Box2D has to be added to the world. */
+    //World instance. Everything in Box2D has to be added to the world.
     private World world;
 
-    /** Debug renderer. It renders worlds to the screen to make it possible to see them. */
+    //Debug renderer. It renders worlds to the screen to make it possible to see them.
     private Box2DDebugRenderer renderer;
 
-    /** Camera. We have to create a camera to tell the renderer how to draw the world. */
+    //Camera. We have to create a camera to tell the renderer how to draw the world.
     private OrthographicCamera camera;
 
-    /** The bodies that we use in this example. */
-    private Body minijoeBody, floorBody, spikeBody;
+    //The bodies that we use in this example.
+    private Body Cubo, Suelo, Pincho;
 
-    /** The fixtures that we use in this example. */
-    private Fixture minijoeFixture, floorFixture, spikeFixture;
+    //The fixtures that we use in this example.
+    private Fixture CuboAccesorio, SueloAccesorio, PinchoAccesorio;
 
     /** Some variables that could be encapsulated if this had been a better example. */
     private boolean mustJump, isJumping, isAlive = true;
 
     @Override
     public void show() {
-        // Create the world. We give it some gravity that is similar to the one used in the earth.
-        // Box2D, like any other physics system in this world, treats Y coordinates upwards. Thus,
-        // by using y = -10, we make gravity go down. If you look at your physics book, it is
-        // the same.
+        // Create the world with some gravity similar than the earth.
         world = new World(new Vector2(0, -10), true);
 
         // Create a renderer and a camera to make it possible for us to see what is in the world.
@@ -73,20 +49,20 @@ public class Box2DScreen extends es.danirod.jddprototype.game.BaseScreen {
         camera.translate(0, 1);
 
         // Create the bodies for entities in this world.
-        minijoeBody = world.createBody(BodyDefFactory.createPlayer());
-        floorBody = world.createBody(BodyDefFactory.createFloor());
-        spikeBody = world.createBody(BodyDefFactory.createSpikes(6f));
+        Cubo = world.createBody(BodyDefFactory.createPlayer());
+        Suelo = world.createBody(BodyDefFactory.createFloor());
+        Pincho = world.createBody(BodyDefFactory.createSpikes(6f));
 
         // Create the fixture for the entities in this world.
-        minijoeFixture = FixtureFactory.createPlayerFixture(minijoeBody);
-        floorFixture = FixtureFactory.createFloorFixture(floorBody);
-        spikeFixture = FixtureFactory.createSpikeFixture(spikeBody);
+        CuboAccesorio = FixtureFactory.createPlayerFixture(Cubo);
+        SueloAccesorio = FixtureFactory.createFloorFixture(Suelo);
+        PinchoAccesorio = FixtureFactory.createSpikeFixture(Pincho);
 
         // Set the user data to some categories that will let us handle collisions in a more
         // generic way. Player can collide with floor and with spike.
-        minijoeFixture.setUserData("player");
-        floorFixture.setUserData("floor");
-        spikeFixture.setUserData("spike");
+        CuboAccesorio.setUserData("player");
+        SueloAccesorio.setUserData("floor");
+        PinchoAccesorio.setUserData("spike");
 
         // Set the contact listener for this world. The contact listener will handle contacts.
         world.setContactListener(new Box2DScreenContactListener());
@@ -95,14 +71,14 @@ public class Box2DScreen extends es.danirod.jddprototype.game.BaseScreen {
     @Override
     public void dispose() {
         // Destroy all the fixtures from their bodies.
-        floorBody.destroyFixture(floorFixture);
-        minijoeBody.destroyFixture(minijoeFixture);
-        spikeBody.destroyFixture(spikeFixture);
+        Suelo.destroyFixture(SueloAccesorio);
+        Cubo.destroyFixture(CuboAccesorio);
+        Pincho.destroyFixture(PinchoAccesorio);
 
         // Destroy all the bodies from their world.
-        world.destroyBody(minijoeBody);
-        world.destroyBody(floorBody);
-        world.destroyBody(spikeBody);
+        world.destroyBody(Cubo);
+        world.destroyBody(Suelo);
+        world.destroyBody(Pincho);
 
         // Dispose all the things.
         world.dispose();
@@ -129,8 +105,8 @@ public class Box2DScreen extends es.danirod.jddprototype.game.BaseScreen {
         // the horizontal component for the speed. I keep the Y speed because I don't want to
         // change the speed used by jumping forces.
         if (isAlive) {
-            float velocidadY = minijoeBody.getLinearVelocity().y;
-            minijoeBody.setLinearVelocity(8, velocidadY);
+            float velocidadY = Cubo.getLinearVelocity().y;
+            Cubo.setLinearVelocity(8, velocidadY);
         }
 
         // Iterate the world.
@@ -143,8 +119,8 @@ public class Box2DScreen extends es.danirod.jddprototype.game.BaseScreen {
 
     private void makePlayerJump() {
         // Apply an impulse to change the speed of the body at the moment.
-        Vector2 position = minijoeBody.getPosition();
-        minijoeBody.applyLinearImpulse(0, 20, position.x, position.y, true);
+        Vector2 position = Cubo.getPosition();
+        Cubo.applyLinearImpulse(0, 20, position.x, position.y, true);
     }
 
     /**
@@ -192,11 +168,11 @@ public class Box2DScreen extends es.danirod.jddprototype.game.BaseScreen {
             // This is another way for guessing which fixture are you working with. If you have
             // the reference to that fixture you can just check if both variable reference the
             // same instance.
-            if (fixtureA == minijoeFixture && fixtureB == floorFixture) {
+            if (fixtureA == CuboAccesorio && fixtureB == SueloAccesorio) {
                 isJumping = true;
             }
 
-            if (fixtureA == floorFixture && fixtureB == minijoeFixture) {
+            if (fixtureA == SueloAccesorio && fixtureB == CuboAccesorio) {
                 isJumping = true;
             }
         }

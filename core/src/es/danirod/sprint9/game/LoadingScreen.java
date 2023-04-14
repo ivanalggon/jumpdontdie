@@ -1,22 +1,4 @@
-/*
- * This file is part of Jump Don't Die
- * Copyright (C) 2015 Dani Rodríguez <danirod@outlook.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-package es.danirod.jddprototype.game;
+package es.danirod.sprint9.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -42,7 +24,7 @@ public class LoadingScreen extends BaseScreen {
     /** This is the label that we use to display some text on the screen. */
     private Label loading;
 
-    public LoadingScreen(es.danirod.jddprototype.game.MainGame game) {
+    public LoadingScreen(es.danirod.sprint9.game.MainGame game) {
         super(game);
 
         // Set up the stage and the skin. See GameOverScreen for more comments on this.

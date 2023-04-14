@@ -1,22 +1,4 @@
-/*
- * This file is part of Jump Don't Die.
- * Copyright (C) 2015 Dani Rodríguez <danirod@outlook.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-package es.danirod.jddprototype.game;
+package es.danirod.sprint9.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -33,10 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import es.danirod.jddprototype.game.entities.EntityFactory;
-import es.danirod.jddprototype.game.entities.FloorEntity;
-import es.danirod.jddprototype.game.entities.PlayerEntity;
-import es.danirod.jddprototype.game.entities.SpikeEntity;
+import es.danirod.sprint9.game.entities.EntityFactory;
+import es.danirod.sprint9.game.entities.FloorEntity;
+import es.danirod.sprint9.game.entities.PlayerEntity;
+import es.danirod.sprint9.game.entities.SpikeEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +58,11 @@ public class GameScreen extends BaseScreen {
     /**
      * Create the screen. Since this constructor cannot be invoked before libGDX is fully started,
      * it is safe to do critical code here such as loading assets and setting up the stage.
+     *
      * @param game
+     * @param easy
      */
-    public GameScreen(es.danirod.jddprototype.game.MainGame game) {
+    public GameScreen(MainGame game, String easy) {
         super(game);
 
         // Create a new Scene2D stage for displaying things.
@@ -115,12 +99,18 @@ public class GameScreen extends BaseScreen {
         // writing lines of code.
         floorList.add(factory.createFloor(world, 15, 10, 2));
         floorList.add(factory.createFloor(world, 30, 8, 2));
+        floorList.add(factory.createFloor(world, 50, 10, 2));
+        floorList.add(factory.createFloor(world, 50, 10, 6));
 
         // Generate some spikes too.
         spikeList.add(factory.createSpikes(world, 8, 1));
         spikeList.add(factory.createSpikes(world, 23, 2));
         spikeList.add(factory.createSpikes(world, 35, 2));
-        spikeList.add(factory.createSpikes(world, 50, 1));
+        spikeList.add(factory.createSpikes(world, 55, 2));
+        spikeList.add(factory.createSpikes(world, 70, 1));
+        spikeList.add(factory.createSpikes(world, 75, 1));
+        spikeList.add(factory.createSpikes(world, 80, 1));
+        spikeList.add(factory.createSpikes(world, 85, 1));
 
         // All add the floors and spikes to the stage.
         for (FloorEntity floor : floorList)
@@ -185,8 +175,16 @@ public class GameScreen extends BaseScreen {
         // moving, make the camera move at the same speed, so that the player is always
         // centered at the same position.
         if (player.getX() > 150 && player.isAlive()) {
-            float speed = Constants.PLAYER_SPEED * delta * Constants.PIXELS_IN_METER;
-            stage.getCamera().translate(speed, 0, 0);
+            if (es.danirod.sprint9.game.Constants.GAME_MODE == 0) {
+                float speed = Constants.PLAYER_SPEED_EASY * delta * Constants.PIXELS_IN_METER;
+                stage.getCamera().translate(speed, 0, 0);
+            } else if (es.danirod.sprint9.game.Constants.GAME_MODE == 1) {
+                float speed = Constants.PLAYER_SPEED_MEDIUM * delta * Constants.PIXELS_IN_METER;
+                stage.getCamera().translate(speed, 0, 0);
+            } else if (es.danirod.sprint9.game.Constants.GAME_MODE == 2) {
+                float speed = Constants.PLAYER_SPEED_HARD * delta * Constants.PIXELS_IN_METER;
+                stage.getCamera().translate(speed, 0, 0);
+            }
         }
 
         // Render the screen. Remember, this is the last step!

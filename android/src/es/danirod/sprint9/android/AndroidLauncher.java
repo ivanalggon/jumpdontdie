@@ -16,13 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package es.danirod.jddprototype.android;
+package es.danirod.sprint9.android;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import es.danirod.jddprototype.game.MainGame;
+import es.danirod.sprint9.game.MainGame;
 
 /**
  * This is the launcher that you use on Android devices.
